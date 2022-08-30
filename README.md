@@ -1,1 +1,1 @@
-# calculator
+I will be building a four function calculator web app using html, css, and javascript.
