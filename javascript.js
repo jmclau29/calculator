@@ -81,3 +81,11 @@ equalButton.addEventListener('click', () => {
     answer = operate(equation.operator, equation.firstNum, equation.secondNum);
     display.textContent = answer;
 });
+
+/*  to-do:
+    fix the equals sign button so that it doesn't mess up if there's missing number or operators.
+    make it so that pressing the operators also runs the equation if there is firstNum, secondNum, and Operators
+    round numbers so they don't overflow
+    add a clear function
+    error message when divide by zero is attempted
+*/
