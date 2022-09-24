@@ -25,9 +25,14 @@ function divide(num1, num2) {
 
 //operation function
 function operate(operator, num1, num2) {
+    
+    if (operator === '' || num2 === '') {
+        return num1;
+    }
+    
     num1 = parseInt(num1);
     num2 = parseInt(num2);
-    
+        
     if (operator === '+') {
         return add(num1, num2);
     }
@@ -72,6 +77,10 @@ numberButton.forEach(button => {
 const operatorButton = document.querySelectorAll('.operatorButton');
 operatorButton.forEach(button => {
     button.addEventListener('click', () => {
+        if (equation.firstNum != '' && equation.secondNum != '' && equation.operator != '') {
+            answer = operate(equation.operator, equation.firstNum, equation.secondNum);
+            display.textContent = answer;
+        }
         equation.operator = button.textContent;
     }, false);
 });
@@ -83,7 +92,7 @@ equalButton.addEventListener('click', () => {
 });
 
 /*  to-do:
-    fix the equals sign button so that it doesn't mess up if there's missing number or operators.
+    fix the equals sign button so that it doesn't mess up if there's missing number or operators. -- FINISHED
     make it so that pressing the operators also runs the equation if there is firstNum, secondNum, and Operators
     round numbers so they don't overflow
     add a clear function
