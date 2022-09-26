@@ -25,6 +25,11 @@ function divide(num1, num2) {
 
 //operation function
 function operate(operator, num1, num2) {
+
+    if (equation.operator === '' || equation.secondNum === '') {
+        return num1;
+    }
+
     num1 = parseInt(num1);
     num2 = parseInt(num2);
     
