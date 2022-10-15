@@ -116,10 +116,24 @@ equalButton.addEventListener('click', () => {
 });
 
 
+const clearButton = document.querySelector('#clear');
+clearButton.addEventListener('click', () => {
+    clear();
+});
+
+function clear() {
+    equation.firstNum = '';
+    equation.secondNum = '';
+    equation.operator = '';
+    answer = '';
+    display.textContent = '';
+}
+
+
 /*  to-do:
     fix the equals sign button so that it doesn't mess up if there's missing number or operators. -- FINISHED
     make it so that pressing the operators also runs the equation if there is firstNum, secondNum, and Operators -- FINISHED
     round numbers so they don't overflow -- FINISHED
-    add a clear function
-    error message when divide by zero is attempted
+    add a clear function -- FINISHED
+    error message when divide by zero is attempted -- FINISHED
 */
