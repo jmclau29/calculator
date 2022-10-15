@@ -43,7 +43,11 @@ function operate(operator, num1, num2) {
         return multiply(num1, num2);
     }
     if (operator === '÷') {
-        return divide(num1, num2);
+        if (num2 === 0) {
+            return "You can't divide by zero!";
+        } else {
+            return divide(num1, num2);
+        }
     }
 }
 
@@ -97,17 +101,25 @@ equalButton.addEventListener('click', () => {
         answer = equation.firstNum;
     } else {
         answer = operate(equation.operator, equation.firstNum, equation.secondNum);
-        equation.firstNum = answer.toString();
+
+        if (answer === "You can't divide by zero!") {
+            equation.firstNum = '';
+        } else {
+            answer = answer.toFixed(2);
+            answer = answer.replace(/\.00$/,'')
+            equation.firstNum = answer;
+        }
         equation.operator = '';
         equation.secondNum = '';
     }
     display.textContent = answer;
 });
 
+
 /*  to-do:
     fix the equals sign button so that it doesn't mess up if there's missing number or operators. -- FINISHED
     make it so that pressing the operators also runs the equation if there is firstNum, secondNum, and Operators -- FINISHED
-    round numbers so they don't overflow
+    round numbers so they don't overflow -- FINISHED
     add a clear function
     error message when divide by zero is attempted
 */
