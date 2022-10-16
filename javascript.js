@@ -30,8 +30,8 @@ function operate(operator, num1, num2) {
         return num1;
     }
 
-    num1 = parseInt(num1);
-    num2 = parseInt(num2);
+    num1 = Number(num1); //changed from parseInt() to Number() to fix decimal problems.
+    num2 = Number(num2);
     
     if (operator === '+') {
         return add(num1, num2);
@@ -107,6 +107,8 @@ equalButton.addEventListener('click', () => {
         } else {
             answer = answer.toFixed(2);
             answer = answer.replace(/\.00$/,'')
+            answer = parseFloat(answer);
+            answer = answer.toString();
             equation.firstNum = answer;
         }
         equation.operator = '';
@@ -129,6 +131,19 @@ function clear() {
     display.textContent = '';
 }
 
+function decimal() {
+    if (display.textContent.indexOf('.') !== -1) {
+        return;
+    } else {
+        updateEquation('.');
+        changeDisplay();
+    }
+}
+
+const decimalButton = document.querySelector('#decimal');
+decimalButton.addEventListener('click', () => {
+    decimal();
+})
 
 /*  to-do:
     fix the equals sign button so that it doesn't mess up if there's missing number or operators. -- FINISHED
@@ -136,4 +151,11 @@ function clear() {
     round numbers so they don't overflow -- FINISHED
     add a clear function -- FINISHED
     error message when divide by zero is attempted -- FINISHED
+*/
+
+/* to-do 2:
+add decimal input and a check for decimals already in the display. -- FINISHED
+make it look nice.
+make a backspace button to delete the last entry if a mistake is made.
+add keyboard support.
 */
