@@ -103,13 +103,15 @@ equalButton.addEventListener('click', () => {
         answer = operate(equation.operator, equation.firstNum, equation.secondNum);
 
         if (answer === "You can't divide by zero!") {
+            
             equation.firstNum = '';
         } else {
             answer = answer.toFixed(2);
-            answer = answer.replace(/\.00$/,'')
+            answer = answer.replace(/\.00$/,'');
             answer = parseFloat(answer);
             answer = answer.toString();
             equation.firstNum = answer;
+            
         }
         equation.operator = '';
         equation.secondNum = '';
@@ -140,10 +142,48 @@ function decimal() {
     }
 }
 
+function plusMinus() {
+    if (equation.firstNum === '') {
+        return;
+    }
+
+    if (equation.firstNum != '' && equation.operator === '' || equation.operator === '=') {
+        equation.firstNum = equation.firstNum * -1;
+        display.textContent = equation.firstNum;
+    } else if (equation.firstNum != '' && equation.operator != '' && equation.secondNum != '') {
+        equation.secondNum = equation.secondNum * -1;
+        display.textContent = equation.secondNum;
+    }
+}
+
+function back() {
+    if (equation.firstNum != '' && equation.operator === '' && equation.secondNum === '') {
+        let str = equation.firstNum;
+        equation.firstNum = str.substring(0, str - 1);
+        display.textContent = equation.firstNum;
+    } else if (equation.firstNum != '' && equation.operator === '' && equation.secondNum != '') {
+        str = equation.secondNum;
+        equation.secondNum = str.substring(0, str.length - 1);
+        display.textContent = equation.secondNum;
+    }
+}
+
+
+const plusMinusButton = document.querySelector('#plusMinus');
+plusMinusButton.addEventListener('click', () => {
+    plusMinus();
+});
+
 const decimalButton = document.querySelector('#decimal');
 decimalButton.addEventListener('click', () => {
     decimal();
-})
+});
+
+
+const backButton = document.querySelector('#back');
+backButton.addEventListener('click', () => {
+    back();
+});
 
 /*  to-do:
     fix the equals sign button so that it doesn't mess up if there's missing number or operators. -- FINISHED
