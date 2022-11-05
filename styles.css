@@ -2,8 +2,20 @@ body {
     margin: 0;
     height: 100vh;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+#display {
+    background-color: lightgray;
+    height: 2em;
+    font-size: 32px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
 
 button {
     width: 3em;

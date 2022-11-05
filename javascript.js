@@ -39,7 +39,7 @@ function operate(operator, num1, num2) {
     if (operator === '-') {
         return subtract(num1, num2);
     }
-    if (operator === 'x') {
+    if (operator === '*') {
         return multiply(num1, num2);
     }
     if (operator === '/') {
@@ -85,7 +85,7 @@ operatorButton.forEach(button => {
         if (equation.firstNum != '' && equation.secondNum != '' && equation.operator != '') {
             answer = operate(equation.operator, equation.firstNum, equation.secondNum);
             display.textContent = answer;
-            equation.firstNum = answer.toString();
+            equation.firstNum = display.textContent;
             equation.secondNum = '';
             equation.operator = '';
         }
@@ -155,7 +155,7 @@ decimalButton.addEventListener('click', () => {
 
 /* to-do 2:
 add decimal input and a check for decimals already in the display. -- FINISHED
-make it look nice.
+make it look nice. -- FINISHED
 make a backspace button to delete the last entry if a mistake is made.
 add keyboard support.
 */
