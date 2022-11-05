@@ -42,7 +42,7 @@ function operate(operator, num1, num2) {
     if (operator === 'x') {
         return multiply(num1, num2);
     }
-    if (operator === '÷') {
+    if (operator === '/') {
         if (num2 === 0) {
             return "You can't divide by zero!";
         } else {
