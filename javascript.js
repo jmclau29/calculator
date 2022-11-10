@@ -26,29 +26,75 @@ function divide(num1, num2) {
 //operation function
 function operate(operator, num1, num2) {
 
+
     if (equation.operator === '' || equation.secondNum === '') {
         return num1;
     }
 
-    num1 = Number(num1); //changed from parseInt() to Number() to fix decimal problems.
+    num1 = Number(num1);
     num2 = Number(num2);
-    
+
+    let sum;
+
+
     if (operator === '+') {
-        return add(num1, num2);
+        sum = add(num1, num2);
+        sum = sum.toFixed(2);
+        sum = sum.replace(/\.00$/, '');
+        return sum;
     }
     if (operator === '-') {
-        return subtract(num1, num2);
+        sum = subtract(num1, num2);
+        sum = sum.toFixed(2);
+        sum = sum.replace(/\.00$/, '');
+        return sum;
     }
     if (operator === '*') {
-        return multiply(num1, num2);
+        sum = multiply(num1, num2);
+        sum = sum.toFixed(2);
+        sum = sum.replace(/\.00$/, '');
+        return sum;
     }
     if (operator === '/') {
         if (num2 === 0) {
             return "You can't divide by zero!";
         } else {
-            return divide(num1, num2);
+            sum = divide(num1, num2);
+            sum = sum.toFixed(2);
+            sum = sum.replace(/\.00$/, '');
+            return sum;
         }
     }
+}
+
+function equalize() {
+    if (equation.operator === '' || equation.secondNum === '') {
+        answer = equation.firstNum;
+    } else {
+        answer = operate(equation.operator, equation.firstNum, equation.secondNum);
+
+        if (answer === "You can't divide by zero!") {
+
+            equation.firstNum = '';
+        } else {
+            equation.firstNum = answer;
+        }
+        equation.operator = '';
+        equation.secondNum = '';
+    }
+    display.textContent = answer;
+}
+
+function operatorPress(operator) {
+    if (equation.firstNum != '' && equation.secondNum != '' && equation.operator != '') {
+        answer = operate(equation.operator, equation.firstNum, equation.secondNum);
+        display.textContent = answer;
+        equation.firstNum = display.textContent;
+        equation.secondNum = '';
+        equation.operator = '';
+    }
+
+    equation.operator = operator;
 }
 
 function changeDisplay() {
@@ -81,42 +127,13 @@ numberButton.forEach(button => {
 const operatorButton = document.querySelectorAll('.operatorButton');
 operatorButton.forEach(button => {
     button.addEventListener('click', () => {
-
-        if (equation.firstNum != '' && equation.secondNum != '' && equation.operator != '') {
-            answer = operate(equation.operator, equation.firstNum, equation.secondNum);
-            display.textContent = answer;
-            equation.firstNum = display.textContent;
-            equation.secondNum = '';
-            equation.operator = '';
-        }
-
-        equation.operator = button.textContent;
+        operatorPress(button.textContent);
     }, false);
 });
 
 const equalButton = document.querySelector('#equals');
 equalButton.addEventListener('click', () => {
-
-    if ( equation.operator === '' || equation.secondNum === '') {
-        answer = equation.firstNum;
-    } else {
-        answer = operate(equation.operator, equation.firstNum, equation.secondNum);
-
-        if (answer === "You can't divide by zero!") {
-            
-            equation.firstNum = '';
-        } else {
-            answer = answer.toFixed(2);
-            answer = answer.replace(/\.00$/,'');
-            answer = parseFloat(answer);
-            answer = answer.toString();
-            equation.firstNum = answer;
-            
-        }
-        equation.operator = '';
-        equation.secondNum = '';
-    }
-    display.textContent = answer;
+    equalize();
 });
 
 
@@ -157,15 +174,12 @@ function plusMinus() {
 }
 
 function back() {
-    if (equation.firstNum != '' && equation.operator === '' && equation.secondNum === '') {
-        let str = equation.firstNum;
-        equation.firstNum = str.substring(0, str - 1);
-        display.textContent = equation.firstNum;
-    } else if (equation.firstNum != '' && equation.operator === '' && equation.secondNum != '') {
-        str = equation.secondNum;
-        equation.secondNum = str.substring(0, str.length - 1);
-        display.textContent = equation.secondNum;
+    if (equation.operator === '') {
+        equation.firstNum = equation.firstNum.substring(0, equation.firstNum.length - 1);
+    } else if (equation.operator != '') {
+        equation.secondNum = equation.secondNum.substring(0, equation.secondNum.length - 1);
     }
+    changeDisplay();
 }
 
 
@@ -182,8 +196,35 @@ decimalButton.addEventListener('click', () => {
 
 const backButton = document.querySelector('#back');
 backButton.addEventListener('click', () => {
+
     back();
 });
+
+//keyboard support goes here
+document.addEventListener('keydown', (event) => {
+    if (event.key >= 0 && event.key < 10) {
+        updateEquation(event.key);
+        changeDisplay();
+    }
+    if (event.key === '=' || event.key === 'Enter') {
+        equalize();
+    }
+
+    if (event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/') {
+        operatorPress(event.key);
+    }
+    if (event.key === '.') {
+        decimal();
+    }
+    if (event.key === 'Backspace') {
+        back();
+    }
+    if (event.key === 'Delete') {
+        clear();
+    }
+});
+
+
 
 /*  to-do:
     fix the equals sign button so that it doesn't mess up if there's missing number or operators. -- FINISHED
@@ -196,6 +237,6 @@ backButton.addEventListener('click', () => {
 /* to-do 2:
 add decimal input and a check for decimals already in the display. -- FINISHED
 make it look nice. -- FINISHED
-make a backspace button to delete the last entry if a mistake is made.
-add keyboard support.
+make a backspace button to delete the last entry if a mistake is made. -- FINISHED
+add keyboard support. -- FINISHED
 */
