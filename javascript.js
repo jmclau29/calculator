@@ -86,6 +86,10 @@ function equalize() {
 }
 
 function operatorPress(operator) {
+    if (equation.firstNum === '' && equation.secondNum === '') {
+        return;
+    }
+
     if (equation.firstNum != '' && equation.secondNum != '' && equation.operator != '') {
         answer = operate(equation.operator, equation.firstNum, equation.secondNum);
         display.textContent = answer;
